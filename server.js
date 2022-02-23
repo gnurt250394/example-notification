@@ -1,12 +1,20 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+var admin = require("firebase-admin");
 require('dotenv').load()
 const port = process.env.PORT || 3000
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
+
+
+var serviceAccount = require("./serviceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 
 let routes = require('./api/routes') //importing route
 routes(app)
